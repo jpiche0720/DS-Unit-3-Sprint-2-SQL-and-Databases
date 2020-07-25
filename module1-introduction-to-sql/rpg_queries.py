@@ -51,12 +51,12 @@ q4 = 'How many of the Items are weapons? How many are not?'
 four = """
 SELECT  (
         SELECT COUNT(*)
-        FROM charactercreator_character_inventory
+        FROM armory_item
         WHERE item_id > 137 and item_id < 175 
         ) AS weapons,
         (
 		SELECT COUNT(*)
-		FROM charactercreator_character_inventory
+		FROM armory_item
 		WHERE item_id < 138 or item_id > 174
 		) AS not_weapons;
 """

@@ -3,6 +3,7 @@ import urllib.request, json
 import pandas as pd 
 
 
+
 ## Get the JSON from Github repo
 with urllib.request.urlopen("https://raw.githubusercontent.com/jpiche0720/Django-RPG/master/testdata.json") as url:
     data = json.loads(url.read().decode())
@@ -112,6 +113,7 @@ if __name__ == '__main__':
     not_weapons = len(items_df[items_df['primary_key'] < min(weapon_identifier)])
     print(q4)
     print(are_weapons,not_weapons)
+    print('-------')
     
 
     q5 = 'How many Items does each character have? (Return first 20 rows)'
@@ -121,32 +123,62 @@ if __name__ == '__main__':
         num_items.append(num)
     print(q5)
     print(num_items[:20])
+    print('-------')
 
     q6 = 'How many Weapons does each character have? (Return first 20 rows)'
+    num_of_weapons = []
+    for i in range(0,len(characters_df)):
+        in_q = characters_df['inventory'][i] 
+        for num in in_q:
+            weapons = []
+            if num in weapon_identifier:
+                weapons.append(1)
+            else:
+                weapons.append(0)
+            num_of_weapons.append(sum(weapons))
+    
+    print(q6)
+    print(num_of_weapons[0:20])
+    print('-------')
     
 
+
     q7 = 'On average, how many Items does each Character have?'
+    print(q7)
+    num_of_items = []
+    for i in range(0,len(characters_df)):
+        in_q = len(characters_df['inventory'][i])
+        num_of_items.append(in_q)
+
+    print(sum(num_of_items)/len(num_of_items))
 
     q8 = 'On average, how many Weapons does each character have?'
+    print(q8)
+    print(sum(num_of_weapons)/len(num_of_weapons))
+    print('-------')
 
 
+
+# How many total Characters are there?
+# 302
+# -------
+# How many of each specific subclass?
+# 5
+# -------
+# How many total Items?
+# 174
+# -------
 # How many of the Items are weapons? How many are not?
-# <class 'list'>
-# [(203, 695)]
-# -----
+# 37 137
+# -------
 # How many Items does each character have? (Return first 20 rows)
-# <class 'list'>
-# [(3,), (3,), (2,), (4,), (4,), (1,), (5,), (3,), (4,), (4,), (3,), (3,), (4,), (4,), (4,), (1,), (5,), (5,), (3,), (1,)]
-# -----
+# [3, 3, 2, 4, 4, 1, 5, 3, 4, 4, 3, 3, 4, 4, 4, 1, 5, 5, 3, 1]
+# -------
 # How many Weapons does each character have? (Return first 20 rows)
-# <class 'list'>
-# [(2,), (1,), (1,), (1,), (1,), (1,), (1,), (3,), (2,), (1,), (1,), (1,), (2,), (3,), (2,), (2,), (2,), (1,), (1,), (1,)]
-# -----
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
+# -------
 # On average, how many Items does each Character have?
-# <class 'list'>
-# [(2.9735099337748343,)]
-# -----
+# 2.9735099337748343
 # On average, how many Weapons does each character have?
-# <class 'list'>
-# [(1.3096774193548386,)]
-
+# 0.22605790645879734
+# -------
