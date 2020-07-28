@@ -93,8 +93,8 @@ SELECT avg(average_items)
   FROM 
     (
    	SELECT COUNT(*) AS average_items
-	FROM charactercreator_character_inventory 
-	WHERE item_id > 137 and item_id < 175
+	FROM charactercreator_character_inventory
+  WHERE item_id > 137 and item_id < 175
 	GROUP BY character_id
 	ORDER BY character_id)
 """

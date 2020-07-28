@@ -80,12 +80,6 @@ types_df['type'] = names
 
 
 if __name__ == '__main__':
-    
-    # print(characters_df.head())
-    # print(items_df.head())
-    # print(weapons_df.head())
-    # print(types_df.head())
-
 
     q1 = 'How many total Characters are there?'
     one = len(characters_df)
@@ -141,8 +135,6 @@ if __name__ == '__main__':
     print(num_of_weapons[0:20])
     print('-------')
     
-
-
     q7 = 'On average, how many Items does each Character have?'
     print(q7)
     num_of_items = []
