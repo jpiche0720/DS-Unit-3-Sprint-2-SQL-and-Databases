@@ -24,6 +24,8 @@ cursor.execute(
         survived   int,
         pclass    int,
         name  varchar(100),
+        prefix  varchar(20),
+        last_name   varchar(100),
         sex   varchar(40),
         age   int,
         siblings_spouses_aboard   int,
@@ -34,24 +36,44 @@ cursor.execute(
 
 
 df = pd.read_csv(CSV_FILEPATH)
+words = df['Name'][0].split()
+print(words[-1])
+
+col = []
+for i in range(0,len(df)):
+    words = df['Name'][i].split()
+    col.append(words[-1])
+col2 = []
+for i in range(0,len(df)):
+    words = df['Name'][i].split()
+    col2.append(words[0])
+
+df['last_name'] = col
+df['prefix'] = col2
 
 for i in range(0,len(df)):
     survived = df['Survived'][i]
     pclass = df['Pclass'][i]
     name = df['Name'][i].replace("'"," ")
+    prefix = df['prefix'][i]
+    last_name = df['last_name'][i].replace("'", " ")
     sex = df['Sex'][i]
     age = df['Age'][i]
     siblings = df['Siblings/Spouses Aboard'][i]
     parents = df['Parents/Children Aboard'][i]
     fare = df['Fare'][i]
 
+
+
     cursor.execute(
         f'''
-        INSERT INTO passengers (survived, pclass, name, sex, age, siblings_spouses_aboard, 
+        INSERT INTO passengers (survived, pclass, name, prefix, last_name, sex, age, siblings_spouses_aboard, 
         parents_children_aboard, fare) VALUES(
             {survived},
             {pclass},
             '{name}',
+            '{prefix}',
+            '{last_name}',
             '{sex}',
             {age},
             {siblings},
@@ -62,46 +84,3 @@ for i in range(0,len(df)):
 
 connection.commit() 
 
-q1 = 'How many fatalilties'
-cursor.execute(
-    '''
-    SELECT COUNT(*) as FATALITIES
-    FROM passengers
-    WHERE survived = 0
-    ''')
-
-result = cursor.fetchall()
-print(q1)
-print("RESULT:", type(result))
-print(result)
-print('---------------')
-
-q2 = 'How many people had family aboard'
-
-cursor.execute(
-    '''
-    SELECT COUNT(*) as Families
-    FROM passengers
-    WHERE siblings_spouses_aboard > 0 or parents_children_aboard > 0
-    ''')
-
-result = cursor.fetchall()
-print(q2)
-print("RESULT:", type(result))
-print(result)
-print('---------------')
-
-q3 =  'Whats the Average Price of fare'
-
-cursor.execute(
-    '''
-    SELECT AVG("fare") as average_fare
-    FROM passengers
-   
-    ''')
-
-result = cursor.fetchall()
-print(q3)
-print("RESULT:", type(result))
-print(result)
-print('---------------')
